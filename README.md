@@ -26,9 +26,15 @@ This project focuses on setting up a virtual cybersecurity and penetration-testi
 ### 3. Test de Connectivité et Résolution (Ping Réussi)
 <img width="1282" height="907" alt="pingg" src="https://github.com/user-attachments/assets/c77fd5d7-b3a5-4dda-af63-9e90e812ebed" />
 
-## 🔍 Troubleshooting (Résolution du problème réseau)
-Pour résoudre le problème courant de connectivité Internet (*Network is unreachable*) sur les versions récentes de Kali Linux et VirtualBox v7, la commande suivante a été appliquée avec succès :
-```
-sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
-sudo nmcli connection down "Wired connection 1"
-sudo nmcli connection up "Wired connection 1"
+## 🔍 Troubleshooting & Problem Solving
+
+### Problem: Internet Connectivity Failure After Static IP Configuration
+* **Issue:** After assigning a static IP address (`10.0.0.2/24`), Kali Linux lost Internet access (`Network is unreachable`), which is a known bug in NetworkManager on recent Kali/VirtualBox releases.
+* **Root Cause:** NetworkManager Duplicate Address Detection (DAD) timeout mechanism.
+* **Solution:** Executed the following commands in the Kali terminal to disable the DAD timeout and restart the interface:
+  ```bash
+  sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
+  sudo nmcli connection down "Wired connection 1"
+  sudo nmcli connection up "Wired connection 1"
+
+Result: Gateway ping (10.0.0.1), DNS resolution (8.8.8.8), and full Internet connectivity were successfully restored.  
